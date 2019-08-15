@@ -53,7 +53,7 @@ resource "azurerm_virtual_network_peering" "vnet_peer_1" {
   allow_forwarded_traffic      = true
   allow_gateway_transit        = false
   use_remote_gateways          = true
-
+  depends_on                   = [azurerm_virtual_network_gateway.gw2]
 }
 
 resource "azurerm_virtual_network_peering" "vnet_peer_2" {
@@ -108,8 +108,13 @@ resource "azurerm_public_ip" "gwip2" {
   allocation_method = "Dynamic"
 }
 
+data "azurerm_public_ip" "gwip2" {
+  name                = "${azurerm_public_ip.gwip2.name}"
+  resource_group_name = "${azurerm_resource_group.cloud.name}"
+}
+
 output "gwip2_pip" {
-  value = "${azurerm_public_ip.gwip2.ip_address}"
+  value = "${data.azurerm_public_ip.gwip2.ip_address}"
 }
 
 resource "azurerm_public_ip" "gwip3" {
@@ -120,8 +125,13 @@ resource "azurerm_public_ip" "gwip3" {
   allocation_method = "Dynamic"
 }
 
+data "azurerm_public_ip" "gwip3" {
+  name                = "${azurerm_public_ip.gwip3.name}"
+  resource_group_name = "${azurerm_resource_group.fakeonprem.name}"
+}
+
 output "gwip3_pip" {
-  value = "${azurerm_public_ip.gwip3.ip_address}"
+  value = "${data.azurerm_public_ip.gwip3.ip_address}"
 }
 
 # Interconnect between VNET Gateways
@@ -171,7 +181,7 @@ resource "azurerm_local_network_gateway" "vnet2" {
   resource_group_name = "${azurerm_resource_group.cloud.name}"
   gateway_address     = "${azurerm_public_ip.gwip3.ip_address}"
   address_space       = ["172.30.1.0/24"]
-
+  depends_on          = [azurerm_virtual_network_gateway.gw3]
 }
 
 resource "azurerm_local_network_gateway" "vnet3" {
@@ -180,6 +190,7 @@ resource "azurerm_local_network_gateway" "vnet3" {
   resource_group_name = "${azurerm_resource_group.fakeonprem.name}"
   gateway_address     = "${azurerm_public_ip.gwip2.ip_address}"
   address_space       = ["172.22.1.0/24"]
+  depends_on          = [azurerm_virtual_network_gateway.gw2]
 }
 
 resource "azurerm_virtual_network_gateway_connection" "cloud" {

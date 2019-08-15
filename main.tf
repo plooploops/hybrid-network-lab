@@ -35,19 +35,19 @@ module "create_jumpbox_vnet1" {
 
 # Deploy Windows AKS Cluster
 
-module "aks" {
-  source = "./modules/aks"
+# module "aks" {
+#  source = "./modules/aks"
 
-  resource_group_name = module.vnets.rg_cloud
-  location            = var.location_cloud
-  vnet_network_name   = module.vnets.vnet1_name
-  prefix              = var.prefix
-  address_prefix      = var.subnet_cidr
-  kubernetes_client_id     = var.kubernetes_client_id
-  kubernetes_client_secret = var.kubernetes_client_secret
+#  resource_group_name = module.vnets.rg_cloud
+#  location            = var.location_cloud
+#  vnet_network_name   = module.vnets.vnet1_name
+#  prefix              = var.prefix
+#  address_prefix      = var.subnet_cidr
+#  kubernetes_client_id     = var.kubernetes_client_id
+#  kubernetes_client_secret = var.kubernetes_client_secret
 
 
-}
+# }
 
 # TODO
 # LogicApps ISE

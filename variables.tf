@@ -7,9 +7,11 @@ variable "rg_name_fakeonprem" {
 }
 
 variable "location_cloud" {
+  default = "westus2"
 }
 
 variable "location_fakeonprem" {
+  default = "eastus2"
 }
 
 variable "tags" {
@@ -87,10 +89,14 @@ variable "subnet_cidr" {
   default = "172.21.128.0/18"
 }
 
-variable "kubernetes_client_id" {
+# variable "kubernetes_client_id" {
+#
+#}
 
-}
+# variable "kubernetes_client_secret" {
+#
+# }
 
-variable "kubernetes_client_secret" {
+variable "client_secret"{
 
 }
