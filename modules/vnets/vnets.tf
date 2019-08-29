@@ -114,7 +114,7 @@ data "azurerm_public_ip" "gwip2" {
 }
 
 output "gwip2_pip" {
-  value = "${data.azurerm_public_ip.gwip2.ip_address}"
+  value = "${azurerm_public_ip.gwip2.ip_address}"
 }
 
 resource "azurerm_public_ip" "gwip3" {
@@ -131,7 +131,7 @@ data "azurerm_public_ip" "gwip3" {
 }
 
 output "gwip3_pip" {
-  value = "${data.azurerm_public_ip.gwip3.ip_address}"
+  value = "${azurerm_public_ip.gwip3.ip_address}"
 }
 
 # Interconnect between VNET Gateways
